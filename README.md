@@ -74,3 +74,22 @@ sudo iotedge system status
 sudo iotedge system logs
 sudo iotedge check
 ```
+
+### 4 - Deploy Modules
+
+Create the deployment "RedisEdge":
+
+```sh
+az iot edge deployment create --deployment-id "redis-edge" \
+    --hub-name "iotdymrobot" \
+    --content "@iotedge/deployments/redis-edge.json" \
+    --labels '{"Release":"001"}' \
+    --target-condition "tags.Environment='Staging'" \
+    --priority 1
+```
+
+Check the portal and the IoT device:
+
+```
+sudo iotedge list
+```
