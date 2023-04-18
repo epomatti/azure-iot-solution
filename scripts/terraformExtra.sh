@@ -14,7 +14,7 @@ vm_edgegateway_name=$(jq -r .vm_edgegateway_name $tf_output)
 echo "Upgrading IoT Hub [$iothub_name] root authority to V2 (DigiCert)"
 az iot hub certificate root-authority set --hub-name $iothub_name --certificate-authority v2 --yes
 
-# Create the DPS enrollment group
+# Create the DPS enrollment group for IoT Edge devices
 az iot dps enrollment-group create -n $dps_name -g $rg_name \
     --root-ca-name $root_ca_name \
     --secondary-root-ca-name $root_ca_name \
@@ -24,5 +24,18 @@ az iot dps enrollment-group create -n $dps_name -g $rg_name \
     --iot-hubs $iothub_hostname \
     --allocation-policy "hashed" \
     --edge-enabled true \
+    --tags '{ "Environment": "Staging" }' \
+    --props '{ "Debug": "false" }'
+
+# Create the DPS enrollment group for IoT Devices (non-Edge)
+az iot dps enrollment-group create -n $dps_name -g $rg_name \
+    --root-ca-name $root_ca_name \
+    --secondary-root-ca-name $root_ca_name \
+    --enrollment-id "DevicesGroup" \
+    --provisioning-status "enabled" \
+    --reprovision-policy "reprovisionandmigratedata" \
+    --iot-hubs $iothub_hostname \
+    --allocation-policy "hashed" \
+    --edge-enabled false \
     --tags '{ "Environment": "Staging" }' \
     --props '{ "Debug": "false" }'
