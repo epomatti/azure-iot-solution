@@ -1,6 +1,6 @@
 variable "app" {
   type    = string
-  default = "dymrobot"
+  default = "fusiontech"
 }
 
 variable "location" {

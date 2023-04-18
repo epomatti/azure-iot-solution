@@ -18,6 +18,3 @@ sudo systemctl restart docker
 
 sudo apt-get update
 sudo apt-get install aziot-edge -y
-
-sudo mkdir /var/secrets
-sudo mkdir /var/secrets/aziot

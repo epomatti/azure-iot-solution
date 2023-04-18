@@ -19,7 +19,7 @@ provider "azurerm" {
 ### Group ###
 
 resource "azurerm_resource_group" "default" {
-  name     = "rg${var.app}"
+  name     = "rg-${var.app}"
   location = var.location
 }
 
@@ -27,7 +27,7 @@ resource "azurerm_resource_group" "default" {
 ### IoT Hub ###
 
 resource "azurerm_iothub" "default" {
-  name                = "iot${var.app}"
+  name                = "iot-${var.app}"
   resource_group_name = azurerm_resource_group.default.name
   location            = azurerm_resource_group.default.location
   min_tls_version     = "1.2"
@@ -42,7 +42,7 @@ resource "azurerm_iothub" "default" {
 ### IoT Hub DPS ###
 
 resource "azurerm_iothub_dps" "default" {
-  name                = "dps${var.app}"
+  name                = "provs-${var.app}"
   resource_group_name = azurerm_resource_group.default.name
   location            = azurerm_resource_group.default.location
   allocation_policy   = "Hashed"
@@ -148,8 +148,14 @@ resource "azurerm_linux_virtual_machine" "edgegateway" {
 resource "local_file" "config" {
   content = jsonencode(
     {
-      "id_scope"       = "${azurerm_iothub_dps.default.id_scope}",
-      "edgegateway_ip" = "${azurerm_public_ip.edgegateway.ip_address}"
+      "id_scope" : "${azurerm_iothub_dps.default.id_scope}",
+      "edgegateway_ip" : "${azurerm_public_ip.edgegateway.ip_address}",
+      "iothub_name" : "${azurerm_iothub.default.name}",
+      "dps_name" : "${azurerm_iothub_dps.default.name}",
+      "resource_group_name" : "${azurerm_resource_group.default.name}",
+      "root_ca_name" : "${azurerm_iothub_dps_certificate.default.name}",
+      "iothub_hostname" : "${azurerm_iothub.default.hostname}",
+      "vm_edgegateway_name" : "${azurerm_linux_virtual_machine.edgegateway.name}"
     }
   )
   filename = "output.json"
