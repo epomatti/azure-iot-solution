@@ -1,4 +1,4 @@
-# azure-iot-solution
+# Azure IoT Solution
 
 > ℹ️ All commands should be run from the project root
 
@@ -54,6 +54,7 @@ az vm restart -n vm-dymrobot-edgegateway -g rgdymrobot
 Run the configuration script locally. The script will read data form `infrastructure/output.json` values using `jq`.
 
 ```sh
+# Run locally
 bash upload_config_iotedge.sh
 ```
 
@@ -62,7 +63,7 @@ This will copy the prepared files to the IoT Edge device VM.
 Now in the remote VM shell, run the installation script:
 
 ```sh
-# In the remote Azure VM shell
+# Run remotelly in the Azure VM shell
 sudo bash edgeconfig.sh
 ```
 
