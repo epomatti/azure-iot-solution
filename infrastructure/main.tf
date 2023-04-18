@@ -63,6 +63,73 @@ resource "azurerm_iothub_dps_certificate" "default" {
   certificate_content = filebase64("${path.module}/secrets/azure-iot-test-only.root.ca.cert.pem")
 }
 
-# output "sas" {
-#   value = azurerm_iothub.default.shared_access_policy[0]
-# }
+### Network ###
+
+resource "azurerm_virtual_network" "default" {
+  name                = "vnet${var.app}"
+  address_space       = ["10.0.0.0/16"]
+  location            = azurerm_resource_group.default.location
+  resource_group_name = azurerm_resource_group.default.name
+}
+
+resource "azurerm_subnet" "default" {
+  name                 = "subnet-default"
+  resource_group_name  = azurerm_resource_group.default.name
+  virtual_network_name = azurerm_virtual_network.default.name
+  address_prefixes     = ["10.0.1.0/24"]
+}
+
+### Iot Edge ###
+
+resource "azurerm_public_ip" "edgegateway" {
+  name                = "pip-${var.app}-edgegateway"
+  resource_group_name = azurerm_resource_group.default.name
+  location            = azurerm_resource_group.default.location
+  allocation_method   = "Static"
+}
+
+resource "azurerm_network_interface" "edgegateway" {
+  name                = "nic-${var.app}-edgegateway"
+  location            = azurerm_resource_group.default.location
+  resource_group_name = azurerm_resource_group.default.name
+
+  ip_configuration {
+    name                          = "dns"
+    subnet_id                     = azurerm_subnet.default.id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.edgegateway.id
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "azurerm_linux_virtual_machine" "edgegateway" {
+  name                  = "vm-${var.app}-edgegateway"
+  resource_group_name   = azurerm_resource_group.default.name
+  location              = azurerm_resource_group.default.location
+  size                  = "Standard_DS1_v2"
+  admin_username        = "edgegateway"
+  admin_password        = "P@ssw0rd.123"
+  network_interface_ids = [azurerm_network_interface.edgegateway.id]
+
+  # custom_data = filebase64("${path.module}/cloud-init.sh")
+
+  admin_ssh_key {
+    username   = "edgegateway"
+    public_key = file("~/.ssh/id_rsa.pub")
+  }
+
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+  }
+
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "0001-com-ubuntu-server-jammy"
+    sku       = "22_04-lts-gen2"
+    version   = "latest"
+  }
+}
