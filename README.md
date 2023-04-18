@@ -21,6 +21,12 @@ terraform -chdir="infrastructure" init
 terraform -chdir="infrastructure" apply -auto-approve
 ```
 
+Update the IoT Hub CA to V2 (DigiCert):
+
+```sh
+az iot hub certificate root-authority set --hub-name iothub789 --certificate-authority v2
+```
+
 There is no official TF support for enrollment groups, so create it with the CLI:
 
 ```sh
