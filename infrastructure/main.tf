@@ -49,16 +49,20 @@ resource "azurerm_iothub_dps" "default" {
     capacity = "1"
   }
 
-  # linked_hub {
-  #   connection_string = azurerm_iothub.default.
-  # }
+  linked_hub {
+    location          = azurerm_resource_group.default.location
+    connection_string = "HostName=${azurerm_iothub.default.hostname};SharedAccessKeyName=${azurerm_iothub.default.shared_access_policy[0].key_name};SharedAccessKey=${azurerm_iothub.default.shared_access_policy[0].primary_key}"
+  }
 }
 
-# resource "azurerm_iothub_dps_certificate" "default" {
-#   name                = "TerraformRootCA"
-#   resource_group_name = azurerm_resource_group.default.name
-#   iot_dps_name        = azurerm_iothub_dps.default.name
-#   is_verified         = true
+resource "azurerm_iothub_dps_certificate" "default" {
+  name                = "TerraformRootCA"
+  resource_group_name = azurerm_resource_group.default.name
+  iot_dps_name        = azurerm_iothub_dps.default.name
+  is_verified         = true
+  certificate_content = filebase64("${path.module}/secrets/azure-iot-test-only.root.ca.cert.pem")
+}
 
-#   certificate_content = filebase64("example.cer")
+# output "sas" {
+#   value = azurerm_iothub.default.shared_access_policy[0]
 # }
