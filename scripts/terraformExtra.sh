@@ -15,6 +15,7 @@ echo "Upgrading IoT Hub [$iothub_name] root authority to V2 (DigiCert)"
 az iot hub certificate root-authority set --hub-name $iothub_name --certificate-authority v2 --yes
 
 # Create the DPS enrollment group for IoT Edge devices
+echo "Creating enrollment for Edge devices"
 az iot dps enrollment-group create -n $dps_name -g $rg_name \
     --root-ca-name $root_ca_name \
     --secondary-root-ca-name $root_ca_name \
@@ -28,6 +29,7 @@ az iot dps enrollment-group create -n $dps_name -g $rg_name \
     --props '{ "Debug": "false" }'
 
 # Create the DPS enrollment group for IoT Devices (non-Edge)
+echo "Creating enrollment for non-Edge devices"
 az iot dps enrollment-group create -n $dps_name -g $rg_name \
     --root-ca-name $root_ca_name \
     --secondary-root-ca-name $root_ca_name \
