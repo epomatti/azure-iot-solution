@@ -1,0 +1,15 @@
+certs
+csr
+newcerts
+private
+
+index.txt
+index.txt.attr
+index.txt.old
+index.txt.attr.old
+
+serial
+serial.old
+
+certGen.sh
+openssl_root_ca.cnf

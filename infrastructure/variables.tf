@@ -15,5 +15,5 @@ variable "iothub_sku_name" {
 
 variable "iothub_sku_capacity" {
   type    = number
-  default = 2
+  default = 1
 }

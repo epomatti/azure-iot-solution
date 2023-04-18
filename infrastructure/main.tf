@@ -49,16 +49,16 @@ resource "azurerm_iothub_dps" "default" {
     capacity = "1"
   }
 
-  linked_hub {
-    connection_string = azurerm_iothub.default.
-  }
+  # linked_hub {
+  #   connection_string = azurerm_iothub.default.
+  # }
 }
 
-resource "azurerm_iothub_dps_certificate" "default" {
-  name                = "TerraformRootCA"
-  resource_group_name = azurerm_resource_group.default.name
-  iot_dps_name        = azurerm_iothub_dps.default.name
-  is_verified         = true
+# resource "azurerm_iothub_dps_certificate" "default" {
+#   name                = "TerraformRootCA"
+#   resource_group_name = azurerm_resource_group.default.name
+#   iot_dps_name        = azurerm_iothub_dps.default.name
+#   is_verified         = true
 
-  certificate_content = filebase64("example.cer")
-}
+#   certificate_content = filebase64("example.cer")
+# }
