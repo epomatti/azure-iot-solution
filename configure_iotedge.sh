@@ -5,12 +5,12 @@
 output_file="infrastructure/output.json"
 
 # IoT Edge
-remote_edgegateway_ip=$(jq .edgegateway_ip $output_file)
-echo "Edge Gatewa VM public IP: $output_file"
+remote_edgegateway_ip=$(jq -r .edgegateway_ip $output_file)
+echo "Edge Gateway VM public IP: $remote_edgegateway_ip"
 remote_target_dir="/home/edgegateway/"
 
 # Provisioning Service
-id_scope=$(jq .id_scope $output_file)
+id_scope=$(jq -r .id_scope $output_file)
 echo "Uploading files to IP $id_scope"
 
 # Secrets
@@ -27,3 +27,4 @@ scp "$local_private_keys/iot-edge-device-identity-EdgeGateway.key.pem" "edgegate
 cp iotedge/config-template.toml iotedge/config.toml
 sed -i "s/SCOPE_ID_HERE/$id_scope/g" iotedge/config.toml
 scp iotedge/config.toml "edgegateway@$remote_edgegateway_ip:$remote_target_dir"
+scp iotedge/edgeconfig.sh "edgegateway@$remote_edgegateway_ip:$remote_target_dir"

@@ -53,9 +53,18 @@ bash configure_iotedge.sh
 
 This will copy the prepared files to the IoT Edge device VM.
 
+Now in the remote VM shell, run the installation script:
+
+```sh
+# In the remote Azure VM shell
+sudo bash edgeconfig.sh
+```
+
 Confirm that the IoT Edge runtime has been installed:
 
 ```sh
 iotedge --version
 sudo iotedge system status
+sudo iotedge system logs
+sudo iotedge check
 ```
