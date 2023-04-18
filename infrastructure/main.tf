@@ -114,7 +114,7 @@ resource "azurerm_linux_virtual_machine" "edgegateway" {
   name                  = "vm-${var.app}-edgegateway"
   resource_group_name   = azurerm_resource_group.default.name
   location              = azurerm_resource_group.default.location
-  size                  = "Standard_DS1_v2"
+  size                  = var.vm_edgegateway_size
   admin_username        = "edgegateway"
   admin_password        = "P@ssw0rd.123"
   network_interface_ids = [azurerm_network_interface.edgegateway.id]
