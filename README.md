@@ -13,3 +13,9 @@ cd infrastructure
 terraform init
 terraform apply -auto-approve
 ```
+
+
+
+```sh
+az vm restart -n vmiotedge -g IoTEdgeResources
+```

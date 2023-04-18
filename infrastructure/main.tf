@@ -15,6 +15,7 @@ provider "azurerm" {
   }
 }
 
+
 ### Group ###
 
 resource "azurerm_resource_group" "default" {
@@ -35,6 +36,7 @@ resource "azurerm_iothub" "default" {
     capacity = var.iothub_sku_capacity
   }
 }
+
 
 ### IoT Hub DPS ###
 
@@ -63,6 +65,7 @@ resource "azurerm_iothub_dps_certificate" "default" {
   certificate_content = filebase64("${path.module}/secrets/azure-iot-test-only.root.ca.cert.pem")
 }
 
+
 ### Network ###
 
 resource "azurerm_virtual_network" "default" {
@@ -78,6 +81,7 @@ resource "azurerm_subnet" "default" {
   virtual_network_name = azurerm_virtual_network.default.name
   address_prefixes     = ["10.0.1.0/24"]
 }
+
 
 ### Iot Edge ###
 
@@ -114,7 +118,7 @@ resource "azurerm_linux_virtual_machine" "edgegateway" {
   admin_password        = "P@ssw0rd.123"
   network_interface_ids = [azurerm_network_interface.edgegateway.id]
 
-  # custom_data = filebase64("${path.module}/cloud-init.sh")
+  custom_data = filebase64("${path.module}/cloud-init.sh")
 
   admin_ssh_key {
     username   = "edgegateway"
