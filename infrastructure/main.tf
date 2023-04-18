@@ -30,6 +30,7 @@ resource "azurerm_iothub" "default" {
   name                = "iot${var.app}"
   resource_group_name = azurerm_resource_group.default.name
   location            = azurerm_resource_group.default.location
+  min_tls_version     = "1.2"
 
   sku {
     name     = var.iothub_sku_name
