@@ -136,4 +136,20 @@ resource "azurerm_linux_virtual_machine" "edgegateway" {
     sku       = "22_04-lts-gen2"
     version   = "latest"
   }
+
+  lifecycle {
+    ignore_changes = [
+      custom_data
+    ]
+  }
+}
+
+resource "local_file" "config" {
+  content = jsonencode(
+    {
+      "id_scope"       = "${azurerm_iothub_dps.default.id_scope}",
+      "edgegateway_ip" = "${azurerm_public_ip.edgegateway.ip_address}"
+    }
+  )
+  filename = "output.json"
 }

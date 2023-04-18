@@ -1,0 +1,12 @@
+# DPS provisioning with X.509 certificate
+[provisioning]
+source = "dps"
+global_endpoint = "https://global.azure-devices-provisioning.net"
+id_scope = "SCOPE_ID_HERE"
+
+[provisioning.attestation]
+method = "x509"
+registration_id = "EdgeGateway"
+
+identity_cert = "file:///var/secrets/aziot/iot-edge-device-identity-EdgeGateway-full-chain.cert.pem"
+identity_pk = "file:///var/secrets/aziot/iot-edge-device-identity-EdgeGateway.key.pem"
