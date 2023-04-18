@@ -85,7 +85,7 @@ az iot edge deployment create --deployment-id "redis-edge" \
     --content "@iotedge/deployments/redis-edge.json" \
     --labels '{"Release":"001"}' \
     --target-condition "tags.Environment='Staging'" \
-    --priority 1
+    --priority 10
 ```
 
 Check the portal and the IoT device:
