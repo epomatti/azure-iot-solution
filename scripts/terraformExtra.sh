@@ -11,7 +11,8 @@ root_ca_name=$(jq -r .root_ca_name $tf_output)
 vm_edgegateway_name=$(jq -r .vm_edgegateway_name $tf_output)
 
 # Upgrade IoT Hub root authority to V2 (DigiCert)
-az iot hub certificate root-authority set --hub-name $iothub_name --certificate-authority v2
+echo "Upgrading IoT Hub [$iothub_name] root authority to V2 (DigiCert)"
+az iot hub certificate root-authority set --hub-name $iothub_name --certificate-authority v2 --yes
 
 # Create the DPS enrollment group
 az iot dps enrollment-group create -n $dps_name -g $rg_name \
@@ -25,6 +26,3 @@ az iot dps enrollment-group create -n $dps_name -g $rg_name \
     --edge-enabled true \
     --tags '{ "Environment": "Staging" }' \
     --props '{ "Debug": "false" }'
-
-# Restarts the VM to activate the kernel likely upgraded by cloud-init
-az vm restart -n $vm_edgegateway_name -g $rg_name
