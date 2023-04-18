@@ -48,7 +48,7 @@ az vm restart -n vm-dymrobot-edgegateway -g rgdymrobot
 Run the configuration script locally. The script will read data form `infrastructure/output.json` values using `jq`.
 
 ```sh
-bash configure_iotedge.sh
+bash upload_config_iotedge.sh
 ```
 
 This will copy the prepared files to the IoT Edge device VM.
