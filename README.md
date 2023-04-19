@@ -88,6 +88,13 @@ Check the portal and the IoT device:
 iotedge list
 ```
 
+## Secured provision
+
+https://learn.microsoft.com/en-us/azure/iot-dps/concepts-device-oem-security-practices
+
+https://learn.microsoft.com/en-us/azure/iot-dps/how-to-roll-certificates
+
+
 ## Python development
 
 ### Local Python
