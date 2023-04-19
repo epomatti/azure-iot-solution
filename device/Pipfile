@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 azure-iot-device = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

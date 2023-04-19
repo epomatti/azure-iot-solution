@@ -94,8 +94,22 @@ iotedge list
 cd device
 ```
 
+Create the local dev device cerficiates:
+
+```sh
+bash generateLocalDevCerts.sh
 ```
+
+Create the `.env`:
+
+```sh
+cp .example.env .env
+```
+
+Install and run the device:
+
+```sh
 pipenv install
 pipenv shell
-pipenv run python device.py
+python device.py
 ```

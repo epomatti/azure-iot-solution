@@ -14,6 +14,10 @@ from azure.iot.device.aio import IoTHubDeviceClient
 from azure.iot.device import Message
 import uuid
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 provisioning_host = os.getenv("PROVISIONING_HOST")
 id_scope = os.getenv("PROVISIONING_IDSCOPE")
