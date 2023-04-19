@@ -105,10 +105,10 @@ https://aws.amazon.com/blogs/iot/enhancing-iot-device-security-using-hardware-se
 cd device
 ```
 
-Create the local dev device cerficiates:
+Create the local devevelopment device cerficiates:
 
 ```sh
-bash generateLocalDevCerts.sh
+bash generateDevCerts.sh
 ```
 
 Create the `.env` and edit the `PROVISIONING_IDSCOPE` variable:
@@ -134,3 +134,7 @@ docker build . -t iothub-pydevice:latest
 ```sh
 docker run --rm iothub-pydevice:latest arg1 arg2
 ```
+
+## Referece
+
+https://github.com/Azure/iotedge-vm-deploy
