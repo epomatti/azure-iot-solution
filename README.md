@@ -88,7 +88,9 @@ Check the portal and the IoT device:
 iotedge list
 ```
 
-## Python device local development
+## Python development
+
+### Local Python
 
 ```
 cd device
@@ -109,7 +111,17 @@ cp .example.env .env
 Install and run the device:
 
 ```sh
-pipenv install
+pipenv install --dev
 pipenv shell
 python device.py
+```
+
+### Docker
+
+```sh
+docker build . -t iothub-pydevice:latest
+```
+
+```sh
+docker run --rm iothub-pydevice:latest arg1 arg2
 ```
