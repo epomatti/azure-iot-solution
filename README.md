@@ -94,6 +94,8 @@ https://learn.microsoft.com/en-us/azure/iot-dps/concepts-device-oem-security-pra
 
 https://learn.microsoft.com/en-us/azure/iot-dps/how-to-roll-certificates
 
+https://aws.amazon.com/blogs/iot/enhancing-iot-device-security-using-hardware-security-modules-and-aws-iot-device-sdk/
+
 
 ## Python development
 
