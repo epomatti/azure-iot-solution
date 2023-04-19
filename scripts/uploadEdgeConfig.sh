@@ -20,6 +20,7 @@ local_private_keys="openssl/private"
 ##### Copy #####
 
 # Secrets
+scp "$local_certs/azure-iot-test-only.root.ca.cert.pem" "edgegateway@$remote_edgegateway_ip:$remote_target_dir"
 scp "$local_certs/iot-edge-device-identity-EdgeGateway-full-chain.cert.pem" "edgegateway@$remote_edgegateway_ip:$remote_target_dir"
 scp "$local_private_keys/iot-edge-device-identity-EdgeGateway.key.pem" "edgegateway@$remote_edgegateway_ip:$remote_target_dir"
 

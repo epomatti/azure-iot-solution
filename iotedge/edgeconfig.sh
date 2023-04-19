@@ -3,6 +3,7 @@
 sudo mkdir /var/secrets
 sudo mkdir /var/secrets/aziot
 
+sudo mv azure-iot-test-only.root.ca.cert.pem /var/secrets/aziot/
 sudo mv iot-edge-device-identity-EdgeGateway-full-chain.cert.pem /var/secrets/aziot/
 sudo mv iot-edge-device-identity-EdgeGateway.key.pem /var/secrets/aziot/
 
