@@ -2,6 +2,8 @@
 
 > ℹ️ All commands should be run from the project root
 
+## Cloud IoT
+
 ### 1 - Create the certificates
 
 Start by creating the required certificates:
@@ -84,4 +86,16 @@ Check the portal and the IoT device:
 ```sh
 # List the modules in the Azure VM
 iotedge list
+```
+
+## Python device local development
+
+```
+cd device
+```
+
+```
+pipenv install
+pipenv shell
+pipenv run python device.py
 ```
