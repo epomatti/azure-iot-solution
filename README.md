@@ -100,7 +100,7 @@ Create the local dev device cerficiates:
 bash generateLocalDevCerts.sh
 ```
 
-Create the `.env`:
+Create the `.env` and edit the `PROVISIONING_IDSCOPE` variable:
 
 ```sh
 cp .example.env .env
