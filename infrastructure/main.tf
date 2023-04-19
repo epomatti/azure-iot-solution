@@ -83,6 +83,13 @@ resource "azurerm_subnet" "default" {
   address_prefixes     = ["10.0.1.0/24"]
 }
 
+resource "azurerm_subnet" "downstream" {
+  name                 = "subnet-downstream"
+  resource_group_name  = azurerm_resource_group.default.name
+  virtual_network_name = azurerm_virtual_network.default.name
+  address_prefixes     = ["10.0.90.0/24"]
+}
+
 
 ### Iot Edge ###
 
@@ -144,6 +151,18 @@ resource "azurerm_linux_virtual_machine" "edgegateway" {
     ]
   }
 }
+
+### Downstream device ###
+
+module "downstream" {
+  source    = "./modules/downstream-device"
+  app       = var.app
+  group     = azurerm_resource_group.default.name
+  location  = azurerm_resource_group.default.location
+  subnet_id = azurerm_subnet.downstream.id
+}
+
+### Output JSON ###
 
 resource "local_file" "config" {
   content = jsonencode(
