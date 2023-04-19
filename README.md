@@ -73,9 +73,9 @@ sudo iotedge check
 Create the deployment "RedisEdge":
 
 ```sh
-az iot edge deployment create --deployment-id "redis-edge" \
+az iot edge deployment create --deployment-id "gateway" \
     --hub-name $(jq -r .iothub_name infrastructure/output.json) \
-    --content "@iotedge/deployments/redis-edge.json" \
+    --content "@iotedge/deployments/gateway.json" \
     --labels '{"Release":"001"}' \
     --target-condition "tags.Environment='Staging'" \
     --priority 10
