@@ -2,6 +2,8 @@
 
 > ℹ️ All commands should be run from the project root
 
+## Cloud IoT
+
 ### 1 - Create the certificates
 
 Start by creating the required certificates:
@@ -85,3 +87,54 @@ Check the portal and the IoT device:
 # List the modules in the Azure VM
 iotedge list
 ```
+
+## Secured provision
+
+https://learn.microsoft.com/en-us/azure/iot-dps/concepts-device-oem-security-practices
+
+https://learn.microsoft.com/en-us/azure/iot-dps/how-to-roll-certificates
+
+https://aws.amazon.com/blogs/iot/enhancing-iot-device-security-using-hardware-security-modules-and-aws-iot-device-sdk/
+
+
+## Python development
+
+### Local Python
+
+```
+cd device
+```
+
+Create the local devevelopment device cerficiates:
+
+```sh
+bash generateDevCerts.sh
+```
+
+Create the `.env` and edit the `PROVISIONING_IDSCOPE` variable:
+
+```sh
+cp .example.env .env
+```
+
+Install and run the device:
+
+```sh
+pipenv install --dev
+pipenv shell
+python device.py
+```
+
+### Docker
+
+```sh
+docker build . -t iothub-pydevice:latest
+```
+
+```sh
+docker run --rm iothub-pydevice:latest arg1 arg2
+```
+
+## Referece
+
+https://github.com/Azure/iotedge-vm-deploy
