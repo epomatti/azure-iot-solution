@@ -18,15 +18,13 @@ messages_to_send = 10
 
 
 async def main():
-    # path to the root ca cert used on your iot edge device (must copy the pem file to this downstream device)
-    # example:   /home/azureuser/edge_certs/azure-iot-test-only.root.ca.cert.pem
-    # ca_cert = os.getenv("IOTEDGE_ROOT_CA_CERT_PATH")
-
-    hostname = os.getenv("IOTEDGE_GATEWAY_HOSTNAME")
+    ca_cert = os.getenv("IOTEDGE_ROOT_CA_CERT_PATH")
+    hostname = os.getenv("IOTHUB_HOSTNAME")
+    gatewayHostname = os.getenv("IOTEDGE_GATEWAY_HOSTNAME")
     device_id = os.getenv("X509_REGISTRATION_ID")
 
-    # certfile = open(ca_cert)
-    # root_ca_cert = certfile.read()
+    certfile = open(ca_cert)
+    root_ca_cert = certfile.read()
 
     x509 = X509(
         cert_file=os.getenv("X509_CERT_FILE"),
@@ -35,7 +33,11 @@ async def main():
     )
 
     device_client = IoTHubDeviceClient.create_from_x509_certificate(
-        hostname=hostname, device_id=device_id, x509=x509
+        x509=x509,
+        hostname=hostname,
+        device_id=device_id,
+        server_verification_cert=root_ca_cert,
+        gateway_hostname=gatewayHostname
     )
 
     # Connect the client.

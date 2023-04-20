@@ -98,27 +98,29 @@ Upload the configuration:
 bash scripts/uploadDownstreamDeviceConfig.sh
 ```
 
-Get the Edge Gateway device scope:
+Register the downstream device:
 
 ```sh
+# Get the IoT Edge Gateway device scope
 az iot hub device-identity show --device-id "edgegateway.fusiontech.iot" --hub-name $(jq -r .iothub_name infrastructure/output.json) --query deviceScope -o tsv
-```
 
-```sh
+# Create the downstream device identity
 az iot hub device-identity create -n $(jq -r .iothub_name infrastructure/output.json) \
     -d "downstream-device-01.fusiontech.iot" \
     --device-scope "{deviceScope of gateway device}" \
     --am x509_ca
 ```
 
-Verify:
+Verify the connectivity:
 
 ```sh
 openssl s_client -connect edgegateway.fusiontech.iot:8883 -CAfile azure-iot-test-only.root.ca.cert.pem -showcerts
 ```
 
-```sh
+Run the downstream device code?
 
+```sh
+python3 downstream.py
 ```
 
 ## Secured provision

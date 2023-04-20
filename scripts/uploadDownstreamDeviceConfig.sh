@@ -16,6 +16,7 @@ local_private_keys="openssl/private"
 ##### Copy #####
 
 # Secrets
+scp "$local_certs/azure-iot-test-only.root.ca.cert.pem" "downstream@$downstream_device_01_ip:$remote_target_dir"
 scp "$local_certs/iot-device-downstream-device-01.fusiontech.iot-full-chain.cert.pem" "downstream@$downstream_device_01_ip:$remote_target_dir"
 scp "$local_private_keys/iot-device-downstream-device-01.fusiontech.iot.key.pem" "downstream@$downstream_device_01_ip:$remote_target_dir"
 
