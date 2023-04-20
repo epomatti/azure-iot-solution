@@ -80,7 +80,9 @@ Confirm that the IoT Edge runtime has been installed:
 
 ```sh
 sudo iotedge system logs
-sudo iotedge check
+
+# Add --iothub-hostname if using DPS to also test for IoT Hub
+sudo iotedge check --iothub-hostname iot-fusiontech.azure-devices.net
 ```
 
 ### 4 - Deploy Modules
