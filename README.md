@@ -27,6 +27,17 @@ Run the extra configuration not available via Terraform:
 bash scripts/terraformExtra.sh
 ```
 
+Chage the hostname of the IoT Edge OS to `edgegateway` to match the certificates:
+
+> IoT Edge requires it to be exact or have the first component in the FQDN
+>
+> Reboot is required
+
+```sh
+sudo nano /etc/hostname
+sudo nano /etc/hosts
+```
+
 (Optional) Verify the cloud-init completion:
 
 ```sh
