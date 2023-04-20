@@ -1,6 +1,6 @@
 # Azure IoT Solution
 
-<img src=".assets/solution.png" width=750 />
+<img src=".assets/solution.png" />
 
 > ℹ️ All commands should be run from the project root
 
