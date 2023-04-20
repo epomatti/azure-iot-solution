@@ -103,7 +103,7 @@ Check the portal and the IoT device:
 iotedge list
 ```
 
-### Deploy downstream devices
+### 5 - Deploy downstream devices
 
 Upload the configuration:
 
