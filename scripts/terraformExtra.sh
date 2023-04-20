@@ -8,7 +8,6 @@ iothub_name=$(jq -r .iothub_name $tf_output)
 iothub_hostname=$(jq -r .iothub_hostname $tf_output)
 dps_name=$(jq -r .dps_name $tf_output)
 root_ca_name=$(jq -r .root_ca_name $tf_output)
-vm_edgegateway_name=$(jq -r .vm_edgegateway_name $tf_output)
 
 # Upgrade IoT Hub root authority to V2 (DigiCert)
 echo "Upgrading IoT Hub [$iothub_name] root authority to V2 (DigiCert)"

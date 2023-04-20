@@ -2,7 +2,7 @@
 # Hostname
 # ==============================================================================
 
-hostname = "vm-fusiontech-edgegateway.fusiontech.iot"
+hostname = "edgegateway.fusiontech.iot"
 
 
 # ==============================================================================
@@ -23,10 +23,10 @@ id_scope = "SCOPE_ID_HERE"
 
 [provisioning.attestation]
 method = "x509"
-registration_id = "EdgeGateway"
+registration_id = "edgegateway.fusiontech.iot"
 
-identity_cert = "file:///var/secrets/aziot/iot-edge-device-identity-EdgeGateway-full-chain.cert.pem"
-identity_pk = "file:///var/secrets/aziot/iot-edge-device-identity-EdgeGateway.key.pem"
+identity_cert = "file:///var/secrets/aziot/iot-edge-device-identity-edgegateway.fusiontech.iot-full-chain.cert.pem"
+identity_pk = "file:///var/secrets/aziot/iot-edge-device-identity-edgegateway.fusiontech.iot.key.pem"
 
 
 # ==============================================================================
@@ -37,5 +37,7 @@ identity_pk = "file:///var/secrets/aziot/iot-edge-device-identity-EdgeGateway.ke
 # ---------------------
 
 [edge_ca]
-cert = "file:///var/secrets/aziot/iot-edge-device-identity-EdgeGateway-full-chain.cert.pem"
-pk = "file:///var/secrets/aziot/iot-edge-device-identity-EdgeGateway.key.pem"
+cert = "file:///var/secrets/aziot/iot-edge-device-ca-edgeca.fusiontech.iot-full-chain.cert.pem"
+pk = "file:///var/secrets/aziot/iot-edge-device-ca-edgeca.fusiontech.iot.key.pem"
+
+# TODO: Auto-renew for Edge CA

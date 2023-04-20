@@ -32,6 +32,7 @@ bash scripts/terraformExtra.sh
 ```sh
 # Connect to the IoT Edge VM
 ssh edgegateway@<public-ip>
+ssh downstream@<public-ip>
 
 # Check if the cloud-init status is "done", otherwise wait with "--wait"
 cloud-init status
@@ -41,6 +42,7 @@ iotedge --version
 
 # Restart the VM to enable any Kernel updates
 az vm restart -n "vm-fusiontech-edgegateway" -g "rg-fusiontech"
+az vm restart -n "vm-fusiontech-downstream001" -g "rg-fusiontech"
 ```
 
 ### 3 - Configure the IoT Edge device
@@ -99,12 +101,12 @@ bash scripts/uploadDownstreamDeviceConfig.sh
 Get the Edge Gateway device scope:
 
 ```sh
-az iot hub device-identity show --device-id "EdgeGateway" --hub-name $(jq -r .iothub_name infrastructure/output.json) --query deviceScope -o tsv
+az iot hub device-identity show --device-id "edgegateway.fusiontech.iot" --hub-name $(jq -r .iothub_name infrastructure/output.json) --query deviceScope -o tsv
 ```
 
 ```sh
 az iot hub device-identity create -n $(jq -r .iothub_name infrastructure/output.json) \
-    -d "downstream-device-01" \
+    -d "downstream-device-01.fusiontech.iot" \
     --device-scope "{deviceScope of gateway device}" \
     --am x509_ca
 ```
@@ -112,8 +114,10 @@ az iot hub device-identity create -n $(jq -r .iothub_name infrastructure/output.
 Verify:
 
 ```sh
-openssl s_client -connect vm-fusiontech-edgegateway.fusiontech.iot:8883 -CAfile azure-iot-test-only.root.ca.cert.pem -showcerts
+openssl s_client -connect edgegateway.fusiontech.iot:8883 -CAfile azure-iot-test-only.root.ca.cert.pem -showcerts
 ```
+
+```sh
 
 ```
 

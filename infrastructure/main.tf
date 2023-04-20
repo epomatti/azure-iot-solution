@@ -179,13 +179,13 @@ resource "azurerm_linux_virtual_machine" "edgegateway" {
   }
 }
 
-# resource "azurerm_private_dns_cname_record" "edgegateway" {
-#   name                = "edgegateway"
-#   zone_name           = azurerm_private_dns_zone.default.name
-#   resource_group_name = azurerm_resource_group.default.name
-#   ttl                 = 300
-#   record              = "${azurerm_linux_virtual_machine.edgegateway.name}.${local.private_zone_domain}."
-# }
+resource "azurerm_private_dns_cname_record" "edgegateway" {
+  name                = "edgegateway"
+  zone_name           = azurerm_private_dns_zone.default.name
+  resource_group_name = azurerm_resource_group.default.name
+  ttl                 = 300
+  record              = "${azurerm_linux_virtual_machine.edgegateway.name}.${local.private_zone_domain}."
+}
 
 ### Downstream device ###
 
@@ -196,6 +196,15 @@ module "downstream" {
   location  = azurerm_resource_group.default.location
   subnet_id = azurerm_subnet.downstream.id
 }
+
+resource "azurerm_private_dns_cname_record" "downstream_device_01" {
+  name                = "downstream-device-01"
+  zone_name           = azurerm_private_dns_zone.default.name
+  resource_group_name = azurerm_resource_group.default.name
+  ttl                 = 300
+  record              = "vm-fusiontech-downstream001.${local.private_zone_domain}."
+}
+
 
 ### Output JSON ###
 
@@ -209,7 +218,6 @@ resource "local_file" "config" {
       "resource_group_name" : "${azurerm_resource_group.default.name}",
       "root_ca_name" : "${azurerm_iothub_dps_certificate.default.name}",
       "iothub_hostname" : "${azurerm_iothub.default.hostname}",
-      "vm_edgegateway_name" : "${azurerm_linux_virtual_machine.edgegateway.name}"
       "downstream_device_01_ip" : "${module.downstream.public_ip}",
     }
   )
