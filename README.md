@@ -109,14 +109,12 @@ az iot hub device-identity create -n $(jq -r .iothub_name infrastructure/output.
     --am x509_ca
 ```
 
-Use either of these connection strings in the device:
+Verify:
 
 ```sh
-# Standard
-"HostName=iot-fusiontech.azure-devices.net;DeviceId=downstream-device-01;x509=true;GatewayHostName=vm-fusiontech-edgegateway.fusiontech.iot"
+openssl s_client -connect vm-fusiontech-edgegateway.fusiontech.iot:8883 -CAfile azure-iot-test-only.root.ca.cert.pem -showcerts
+```
 
-# Simplified
-"HostName=vm-fusiontech-edgegateway.fusiontech.iot;DeviceId=downstream-device-01;x509=true"
 ```
 
 ## Secured provision
