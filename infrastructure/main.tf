@@ -15,6 +15,10 @@ provider "azurerm" {
   }
 }
 
+locals {
+  private_zone_domain = "fusiontech.iot"
+}
+
 
 ### Group ###
 
@@ -36,6 +40,14 @@ resource "azurerm_iothub" "default" {
     name     = var.iothub_sku_name
     capacity = var.iothub_sku_capacity
   }
+}
+
+resource "azurerm_iothub_certificate" "default" {
+  name                = "TerraformRootCA"
+  resource_group_name = azurerm_resource_group.default.name
+  iothub_name         = azurerm_iothub.default.name
+  is_verified         = true
+  certificate_content = filebase64("${path.module}/secrets/azure-iot-test-only.root.ca.cert.pem")
 }
 
 
@@ -82,6 +94,28 @@ resource "azurerm_subnet" "default" {
   virtual_network_name = azurerm_virtual_network.default.name
   address_prefixes     = ["10.0.1.0/24"]
 }
+
+resource "azurerm_subnet" "downstream" {
+  name                 = "subnet-downstream"
+  resource_group_name  = azurerm_resource_group.default.name
+  virtual_network_name = azurerm_virtual_network.default.name
+  address_prefixes     = ["10.0.90.0/24"]
+}
+
+resource "azurerm_private_dns_zone" "default" {
+  name                = local.private_zone_domain
+  resource_group_name = azurerm_resource_group.default.name
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "default" {
+  name                  = "edge-network-link"
+  resource_group_name   = azurerm_resource_group.default.name
+  private_dns_zone_name = azurerm_private_dns_zone.default.name
+  virtual_network_id    = azurerm_virtual_network.default.id
+  registration_enabled  = true
+}
+
+// TODO: Add NSG
 
 
 ### Iot Edge ###
@@ -145,6 +179,35 @@ resource "azurerm_linux_virtual_machine" "edgegateway" {
   }
 }
 
+resource "azurerm_private_dns_cname_record" "edgegateway" {
+  name                = "edgegateway"
+  zone_name           = azurerm_private_dns_zone.default.name
+  resource_group_name = azurerm_resource_group.default.name
+  ttl                 = 300
+  record              = "${azurerm_linux_virtual_machine.edgegateway.name}.${local.private_zone_domain}."
+}
+
+### Downstream device ###
+
+module "downstream" {
+  source    = "./modules/downstream-device"
+  app       = var.app
+  group     = azurerm_resource_group.default.name
+  location  = azurerm_resource_group.default.location
+  subnet_id = azurerm_subnet.downstream.id
+}
+
+resource "azurerm_private_dns_cname_record" "downstream_device_01" {
+  name                = "downstream-device-01"
+  zone_name           = azurerm_private_dns_zone.default.name
+  resource_group_name = azurerm_resource_group.default.name
+  ttl                 = 300
+  record              = "vm-fusiontech-downstream001.${local.private_zone_domain}."
+}
+
+
+### Output JSON ###
+
 resource "local_file" "config" {
   content = jsonencode(
     {
@@ -155,7 +218,7 @@ resource "local_file" "config" {
       "resource_group_name" : "${azurerm_resource_group.default.name}",
       "root_ca_name" : "${azurerm_iothub_dps_certificate.default.name}",
       "iothub_hostname" : "${azurerm_iothub.default.hostname}",
-      "vm_edgegateway_name" : "${azurerm_linux_virtual_machine.edgegateway.name}"
+      "downstream_device_01_ip" : "${module.downstream.public_ip}",
     }
   )
   filename = "output.json"

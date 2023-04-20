@@ -32,6 +32,7 @@ bash scripts/terraformExtra.sh
 ```sh
 # Connect to the IoT Edge VM
 ssh edgegateway@<public-ip>
+ssh downstream@<public-ip>
 
 # Check if the cloud-init status is "done", otherwise wait with "--wait"
 cloud-init status
@@ -41,6 +42,7 @@ iotedge --version
 
 # Restart the VM to enable any Kernel updates
 az vm restart -n "vm-fusiontech-edgegateway" -g "rg-fusiontech"
+az vm restart -n "vm-fusiontech-downstream001" -g "rg-fusiontech"
 ```
 
 ### 3 - Configure the IoT Edge device
@@ -73,9 +75,9 @@ sudo iotedge check
 Create the deployment "RedisEdge":
 
 ```sh
-az iot edge deployment create --deployment-id "redis-edge" \
+az iot edge deployment create --deployment-id "gateway" \
     --hub-name $(jq -r .iothub_name infrastructure/output.json) \
-    --content "@iotedge/deployments/redis-edge.json" \
+    --content "@iotedge/deployments/gateway.json" \
     --labels '{"Release":"001"}' \
     --target-condition "tags.Environment='Staging'" \
     --priority 10
@@ -86,6 +88,39 @@ Check the portal and the IoT device:
 ```sh
 # List the modules in the Azure VM
 iotedge list
+```
+
+### Deploy downstream devices
+
+Upload the configuration:
+
+```sh
+bash scripts/uploadDownstreamDeviceConfig.sh
+```
+
+Register the downstream device:
+
+```sh
+# Get the IoT Edge Gateway device scope
+az iot hub device-identity show --device-id "edgegateway.fusiontech.iot" --hub-name $(jq -r .iothub_name infrastructure/output.json) --query deviceScope -o tsv
+
+# Create the downstream device identity
+az iot hub device-identity create -n $(jq -r .iothub_name infrastructure/output.json) \
+    -d "downstream-device-01.fusiontech.iot" \
+    --device-scope "{deviceScope of gateway device}" \
+    --am x509_ca
+```
+
+Verify the connectivity:
+
+```sh
+openssl s_client -connect edgegateway.fusiontech.iot:8883 -CAfile azure-iot-test-only.root.ca.cert.pem -showcerts
+```
+
+Run the downstream device code?
+
+```sh
+python3 downstream.py
 ```
 
 ## Secured provision
