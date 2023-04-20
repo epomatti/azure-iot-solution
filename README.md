@@ -88,6 +88,37 @@ Check the portal and the IoT device:
 iotedge list
 ```
 
+### Deploy downstream devices
+
+Upload the configuration:
+
+```sh
+bash scripts/uploadDownstreamDeviceConfig.sh
+```
+
+Get the Edge Gateway device scope:
+
+```sh
+az iot hub device-identity show --device-id "EdgeGateway" --hub-name $(jq -r .iothub_name infrastructure/output.json) --query deviceScope -o tsv
+```
+
+```sh
+az iot hub device-identity create -n $(jq -r .iothub_name infrastructure/output.json) \
+    -d "downstream-device-01" \
+    --device-scope "{deviceScope of gateway device}" \
+    --am x509_ca
+```
+
+Use either of these connection strings in the device:
+
+```sh
+# Standard
+"HostName=iot-fusiontech.azure-devices.net;DeviceId=downstream-device-01;x509=true;GatewayHostName=vm-fusiontech-edgegateway.fusiontech.iot"
+
+# Simplified
+"HostName=vm-fusiontech-edgegateway.fusiontech.iot;DeviceId=downstream-device-01;x509=true"
+```
+
 ## Secured provision
 
 https://learn.microsoft.com/en-us/azure/iot-dps/concepts-device-oem-security-practices

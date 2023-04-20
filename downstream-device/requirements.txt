@@ -1,0 +1,3 @@
+azure.iot.device.aio 
+azure-iot-device
+python-dotenv

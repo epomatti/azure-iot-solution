@@ -11,7 +11,6 @@ remote_target_dir="/home/edgegateway/"
 
 # Provisioning Service
 id_scope=$(jq -r .id_scope $output_file)
-echo "Uploading files to IP $id_scope"
 
 # Secrets
 local_certs="openssl/certs"
