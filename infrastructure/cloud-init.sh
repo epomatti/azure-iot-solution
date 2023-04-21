@@ -13,7 +13,7 @@ sudo rm packages-microsoft-prod.deb
 sudo apt-get update
 sudo apt-get install moby-engine -y
 sudo touch /etc/docker/daemon.json
-echo '{ "log-driver": "local" }' | sudo tee -a /etc/docker/daemon.json
+echo '{ "log-driver": "local", "dns": ["168.63.129.16"] }' | sudo tee -a /etc/docker/daemon.json
 sudo systemctl restart docker
 
 sudo apt-get update
