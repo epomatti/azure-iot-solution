@@ -146,6 +146,8 @@ https://learn.microsoft.com/en-us/azure/iot-dps/how-to-roll-certificates
 
 https://aws.amazon.com/blogs/iot/enhancing-iot-device-security-using-hardware-security-modules-and-aws-iot-device-sdk/
 
+https://learn.microsoft.com/en-us/azure/iot-edge/tutorial-configure-est-server?view=iotedge-1.4
+
 
 ## Python development
 
