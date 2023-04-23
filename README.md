@@ -132,22 +132,11 @@ Verify the connectivity:
 openssl s_client -connect edgegateway.fusiontech.iot:8883 -CAfile azure-iot-test-only.root.ca.cert.pem -showcerts
 ```
 
-Run the downstream device code?
+Run the downstream device code:
 
 ```sh
 python3 downstream.py
 ```
-
-## Secured provision
-
-https://learn.microsoft.com/en-us/azure/iot-dps/concepts-device-oem-security-practices
-
-https://learn.microsoft.com/en-us/azure/iot-dps/how-to-roll-certificates
-
-https://aws.amazon.com/blogs/iot/enhancing-iot-device-security-using-hardware-security-modules-and-aws-iot-device-sdk/
-
-https://learn.microsoft.com/en-us/azure/iot-edge/tutorial-configure-est-server?view=iotedge-1.4
-
 
 ## Python development
 
@@ -190,3 +179,11 @@ docker run --rm iothub-pydevice:latest arg1 arg2
 ## Referece
 
 https://github.com/Azure/iotedge-vm-deploy
+
+https://learn.microsoft.com/en-us/azure/iot-dps/concepts-device-oem-security-practices
+
+https://learn.microsoft.com/en-us/azure/iot-dps/how-to-roll-certificates
+
+https://aws.amazon.com/blogs/iot/enhancing-iot-device-security-using-hardware-security-modules-and-aws-iot-device-sdk/
+
+https://learn.microsoft.com/en-us/azure/iot-edge/tutorial-configure-est-server?view=iotedge-1.4
