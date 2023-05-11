@@ -29,15 +29,23 @@ Run the extra configuration not available via Terraform:
 bash scripts/terraformExtra.sh
 ```
 
-Chage the hostname of the IoT Edge OS to `edgegateway` to match the certificates:
+Change the hostname of the IoT Edge OS to `edgegateway` to match the certificates:
 
 > IoT Edge requires it to be exact or have the first component in the FQDN
 >
 > Reboot is required
 
 ```sh
+# Change to: edgegateway.fusiontech.iot
 sudo nano /etc/hostname
-sudo nano /etc/hosts
+```
+
+Restart the VM: `az vm restart -g rg-fusiontech -n vm-fusiontech-edgegateway`
+
+> ⚠️ Need to add a manual DNS registry: `edgegateway.fusiontech.iot A 10.0.90.4`
+
+```sh
+az network private-dns record-set a add-record -g rg-fusiontech -z fusiontech.iot -n edgegateway.fusiontech.iot -a "10.0.90.4"
 ```
 
 (Optional) Verify the cloud-init completion:
