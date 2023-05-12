@@ -80,7 +80,7 @@ This will copy the prepared files to the IoT Edge device VM.
 Now, in the remote VM shell, run the installation script:
 
 ```sh
-# Run remotelly in the Azure VM shell
+# Run remotely in the Azure VM shell
 sudo bash edgeconfig.sh
 ```
 
@@ -209,7 +209,7 @@ az iot edge deployment create --deployment-id "new-custom-module" \
 cd device
 ```
 
-Create the local devevelopment device cerficiates:
+Create the local development device certificates:
 
 ```sh
 bash generateDevCerts.sh
@@ -239,7 +239,7 @@ docker build . -t iothub-pydevice:latest
 docker run --rm iothub-pydevice:latest arg1 arg2
 ```
 
-## Referece
+## Reference
 
 https://github.com/Azure/iotedge-vm-deploy
 

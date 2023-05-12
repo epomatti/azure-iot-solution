@@ -1,0 +1,20 @@
+{
+    "version": "0.2",
+    "ignorePaths": [],
+    "dictionaryDefinitions": [],
+    "dictionaries": [],
+    "words": [
+        "acriotedgefusion",
+        "azurecr",
+        "edgeconfig",
+        "edgegateway",
+        "filtermodule",
+        "fusiontech",
+        "iotedge",
+        "iotedgesolution",
+        "iothub",
+        "myacr"
+    ],
+    "ignoreWords": [],
+    "import": []
+}
