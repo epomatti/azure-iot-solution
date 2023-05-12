@@ -241,12 +241,8 @@ docker run --rm iothub-pydevice:latest arg1 arg2
 
 ## Reference
 
-https://github.com/Azure/iotedge-vm-deploy
-
-https://learn.microsoft.com/en-us/azure/iot-dps/concepts-device-oem-security-practices
-
-https://learn.microsoft.com/en-us/azure/iot-dps/how-to-roll-certificates
-
-https://aws.amazon.com/blogs/iot/enhancing-iot-device-security-using-hardware-security-modules-and-aws-iot-device-sdk/
-
-https://learn.microsoft.com/en-us/azure/iot-edge/tutorial-configure-est-server?view=iotedge-1.4
+- [GitHub IoT Edge - IoT Edge VM Deploy](https://github.com/Azure/iotedge-vm-deploy)
+- [Azure DPS - Device OEM Security Practices](https://learn.microsoft.com/en-us/azure/iot-dps/concepts-device-oem-security-practices)
+- [Azure DPS - How to roll devices](https://learn.microsoft.com/en-us/azure/iot-dps/how-to-roll-certificates)
+- [AWS - HSM](https://aws.amazon.com/blogs/iot/enhancing-iot-device-security-using-hardware-security-modules-and-aws-iot-device-sdk/)
+- [Azure - EST](https://learn.microsoft.com/en-us/azure/iot-edge/tutorial-configure-est-server?view=iotedge-1.4)
