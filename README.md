@@ -113,7 +113,7 @@ Check the portal and the IoT device:
 iotedge list
 ```
 
-### 5 - Deploy downstream devices
+### 5 - Provision downstream devices
 
 Upload the configuration:
 
@@ -144,6 +144,57 @@ Run the downstream device code:
 
 ```sh
 python3 downstream.py
+```
+
+### 6 - Deploy a custom module
+
+Get the credentials for the ACR:
+
+```
+az acr credential show --name acriotedgefusion789
+```
+
+Login to docker:
+
+```
+docker login -u acriotedgefusion789 -p <ACR password> acriotedgefusion789.azurecr.io
+```
+
+Login do ACR:
+
+```
+az acr login -n acriotedgefusion789
+```
+
+Create a copy of the deployment configuration:
+
+```
+cp ./iotedgesolution/deployment.template.json ./iotedgesolution/deployment.json
+```
+
+Change the `myacr` password placeholder `<PASSWORD>` in the deployment template.
+
+Build the image:
+
+```sh
+# Build the image for the local registry
+docker build --rm -f "./iotedgesolution/modules/filtermodule/Dockerfile.amd64.debug" -t localhost:5000/filtermodule:0.0.1-amd64 "./iotedgesolution/modules/filtermodule"
+
+# Or build the image for an Azure Container Registry
+docker build --rm -f "./iotedgesolution//modules/filtermodule/Dockerfile.amd64" -t acriotedgefusion789.azurecr.io/filtermodule:0.0.1-amd64 "./iotedgesolution/modules/filtermodule"
+```
+
+```
+docker push acriotedgefusion789.azurecr.io/filtermodule:0.0.1-amd64
+```
+
+```sh
+az iot edge deployment create --deployment-id "new-custom-module" \
+    --hub-name $(jq -r .iothub_name infrastructure/output.json) \
+    --content "@iotedgesolution/deployment.json" \
+    --labels '{"Release":"001"}' \
+    --target-condition "tags.Environment='Staging'" \
+    --priority 10
 ```
 
 ## Python development

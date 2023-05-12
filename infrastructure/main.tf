@@ -27,6 +27,15 @@ resource "azurerm_resource_group" "default" {
   location = var.location
 }
 
+### ACR ###
+resource "azurerm_container_registry" "acr" {
+  name                  = "acriotedgefusion789"
+  resource_group_name   = azurerm_resource_group.default.name
+  location              = azurerm_resource_group.default.location
+  sku                   = "Basic"
+  admin_enabled         = true
+}
+
 
 ### IoT Hub ###
 

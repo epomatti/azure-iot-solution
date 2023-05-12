@@ -6,7 +6,15 @@
           "schemaVersion": "1.1",
           "runtime": {
             "type": "docker",
-            "settings": {}
+            "settings": {
+              "registryCredentials": {
+                "myacr": {
+                  "username": "acriotedgefusion789",
+                  "password": "<PASSWORD>",
+                  "address": "acriotedgefusion789.azurecr.io"
+                }
+              }
+            }
           },
           "systemModules": {
             "edgeAgent": {
@@ -48,6 +56,15 @@
               },
               "status": "running",
               "type": "docker"
+            },
+            "filtermodule": {
+              "version": "1.0",
+              "type": "docker",
+              "status": "running",
+              "restartPolicy": "always",
+              "settings": {
+                "image": "acriotedgefusion789.azurecr.io/filtermodule:0.0.1-amd64"
+              }
             }
           }
         }

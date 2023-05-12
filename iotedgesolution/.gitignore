@@ -1,0 +1,15 @@
+**/.vs
+**/bin
+**/obj
+**/out
+build
+.env
+venv
+logs
+.config
+config
+
+
+
+
+deployment.json
