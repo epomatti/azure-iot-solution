@@ -184,9 +184,13 @@ docker build --rm -f "./iotedgesolution/modules/filtermodule/Dockerfile.amd64.de
 docker build --rm -f "./iotedgesolution//modules/filtermodule/Dockerfile.amd64" -t acriotedgefusion789.azurecr.io/filtermodule:0.0.1-amd64 "./iotedgesolution/modules/filtermodule"
 ```
 
+Push the image to ACR:
+
 ```
 docker push acriotedgefusion789.azurecr.io/filtermodule:0.0.1-amd64
 ```
+
+Deploy the custom module:
 
 ```sh
 az iot edge deployment create --deployment-id "new-custom-module" \
