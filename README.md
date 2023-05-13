@@ -42,7 +42,7 @@ sudo nano /etc/hostname
 
 Restart the VM: `az vm restart -g rg-fusiontech -n vm-fusiontech-edgegateway`
 
-> ⚠️ Need to add a manual DNS registry: `edgegateway.fusiontech.iot A 10.0.90.4`
+> ⚠️ After changing the hostname, need to add a manual DNS registry: `edgegateway.fusiontech.iot A 10.0.90.4`. I should find a fix for this if I have time.
 
 ```sh
 az network private-dns record-set a add-record -g rg-fusiontech -z fusiontech.iot -n edgegateway.fusiontech.iot -a "10.0.90.4"
