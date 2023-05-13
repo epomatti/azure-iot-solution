@@ -1,6 +1,6 @@
 # Azure IoT Solution
 
-A complete solution combining all several Azure IoT features and products:
+A complete solution combining several Azure IoT features and products:
 
 <img src=".assets/solution.png" />
 
