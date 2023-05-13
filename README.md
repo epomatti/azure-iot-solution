@@ -1,15 +1,6 @@
 # Azure IoT Solution
 
-A complete solution combining all of these features/products:
-
-- Private CA-Signed authentication
-- IoT Hub
-- Device Provisioning Service
-- IoT Edge Gateway Device
-- Edge CA
-- Downstream devices
-- Custom modules
-- Infra-as-code
+A complete solution combining all several Azure IoT features and products:
 
 <img src=".assets/solution.png" />
 
