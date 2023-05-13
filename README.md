@@ -9,6 +9,7 @@ A complete solution combining all of these features/products:
 - Edge CA
 - Downstream devices
 - Custom modules
+- Infra-as-code
 
 <img src=".assets/solution.png" />
 
