@@ -20,30 +20,6 @@ resource "azurerm_network_security_group" "edgegateway_allow_ssh" {
     destination_address_prefix = "*"
   }
 
-  # security_rule {
-  #   name                       = "AllowVnetInBound"
-  #   priority                   = 1000
-  #   direction                  = "Inbound"
-  #   access                     = "Allow"
-  #   protocol                   = "Tcp"
-  #   source_port_range          = "*"
-  #   destination_port_range     = "*"
-  #   source_address_prefix      = "VirtualNetwork"
-  #   destination_address_prefix = "VirtualNetwork"
-  # }
-
-  # security_rule {
-  #   name                       = "DenyAllInBound"
-  #   priority                   = 4000
-  #   direction                  = "Inbound"
-  #   access                     = "Deny"
-  #   protocol                   = "*"
-  #   source_port_range          = "*"
-  #   destination_port_range     = "*"
-  #   source_address_prefix      = "*"
-  #   destination_address_prefix = "*"
-  # }
-
   # Outbound
 
   security_rule {
