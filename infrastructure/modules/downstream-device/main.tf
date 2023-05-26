@@ -39,6 +39,7 @@ resource "azurerm_linux_virtual_machine" "downstream" {
   }
 
   os_disk {
+    name                 = "osdisk-${var.app}-downstream001"
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
   }

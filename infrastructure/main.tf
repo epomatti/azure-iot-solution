@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "3.52.0"
+      version = "3.58.0"
     }
   }
 }
@@ -29,11 +29,11 @@ resource "azurerm_resource_group" "default" {
 
 ### ACR ###
 resource "azurerm_container_registry" "acr" {
-  name                  = "acriotedgefusion789"
-  resource_group_name   = azurerm_resource_group.default.name
-  location              = azurerm_resource_group.default.location
-  sku                   = "Basic"
-  admin_enabled         = true
+  name                = "acriotedgefusion789"
+  resource_group_name = azurerm_resource_group.default.name
+  location            = azurerm_resource_group.default.location
+  sku                 = "Basic"
+  admin_enabled       = true
 }
 
 
@@ -124,8 +124,15 @@ resource "azurerm_private_dns_zone_virtual_network_link" "default" {
   registration_enabled  = true
 }
 
-// TODO: Add NSG
+### Network Security Group ###
 
+module "nsg" {
+  source   = "./modules/nsg"
+  group    = azurerm_resource_group.default.name
+  location = azurerm_resource_group.default.location
+  app      = var.app
+  subnet   = azurerm_subnet.default.id
+}
 
 ### Iot Edge ###
 
@@ -170,8 +177,9 @@ resource "azurerm_linux_virtual_machine" "edgegateway" {
   }
 
   os_disk {
+    name                 = "osdisk-${var.app}-edgegateway"
     caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
+    storage_account_type = "StandardSSD_LRS"
   }
 
   source_image_reference {
@@ -180,6 +188,10 @@ resource "azurerm_linux_virtual_machine" "edgegateway" {
     sku       = "22_04-lts-gen2"
     version   = "latest"
   }
+
+  depends_on = [
+    module.nsg
+  ]
 
   lifecycle {
     ignore_changes = [
