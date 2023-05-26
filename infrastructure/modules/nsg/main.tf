@@ -36,66 +36,27 @@ resource "azurerm_network_security_group" "edgegateway_allow_ssh" {
   }
 
   security_rule {
-    name                       = "AllowHTTPS"
+    name                       = "AllowIoTEdge"
     description                = "Allows IoT Edge to connect with HTTPS"
     priority                   = 110
     direction                  = "Outbound"
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    destination_port_range     = "443"
+    destination_port_ranges    = ["443", "8883", "5671"]
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
 
   security_rule {
-    name                       = "AllowMQTT"
-    description                = "Allows IoT Edge to connect with MQTT"
-    priority                   = 120
-    direction                  = "Outbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "8883"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-
-  security_rule {
-    name                       = "AllowAMQP"
-    description                = "Allows IoT Edge to connect with AMQP"
-    priority                   = 130
-    direction                  = "Outbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "5671"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-
-  security_rule {
-    name                       = "AllowNTP"
+    name                       = "AllowNetworkCommon"
     description                = "Allows NTP"
     priority                   = 140
     direction                  = "Outbound"
     access                     = "Allow"
     protocol                   = "*"
     source_port_range          = "*"
-    destination_port_range     = "123"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-
-  security_rule {
-    name                       = "AllowDNS"
-    description                = "Allows DNS"
-    priority                   = 150
-    direction                  = "Outbound"
-    access                     = "Allow"
-    protocol                   = "*"
-    source_port_range          = "*"
-    destination_port_range     = "53"
+    destination_port_ranges    = ["123", "53"]
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
