@@ -74,7 +74,33 @@ resource "azurerm_network_security_group" "edgegateway_allow_ssh" {
     destination_address_prefix = "*"
   }
 
-    security_rule {
+  security_rule {
+    name                       = "AllowNTP"
+    description                = "Allows NTP"
+    priority                   = 140
+    direction                  = "Outbound"
+    access                     = "Allow"
+    protocol                   = "*"
+    source_port_range          = "*"
+    destination_port_range     = "123"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                       = "AllowDNS"
+    description                = "Allows DNS"
+    priority                   = 150
+    direction                  = "Outbound"
+    access                     = "Allow"
+    protocol                   = "*"
+    source_port_range          = "*"
+    destination_port_range     = "53"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
     name                       = "AllowVnetOutBound"
     priority                   = 1000
     direction                  = "Outbound"
@@ -86,7 +112,7 @@ resource "azurerm_network_security_group" "edgegateway_allow_ssh" {
     destination_address_prefix = "VirtualNetwork"
   }
 
-    security_rule {
+  security_rule {
     name                       = "DenyAllOutBound"
     priority                   = 4000
     direction                  = "Outbound"
